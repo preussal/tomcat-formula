@@ -154,13 +154,23 @@
                      reloadable="{{ site.reloadable|default(true) }}"
             />
             {% endif %}
+            {%- if site.contexts is defined %}
+            {%-  for context in site.contexts %}
+            <Context 
+              {%- for k, v in context.items() %}
+                {{ k }}="{{ v }}"
+              {%- endfor %} />
+
+            {%-  endfor %}
+            {% endif %}
+
             {%- if site.alias is defined %}
             <Alias>{{ site.alias }}</Alias>
             {% endif %}
 
             {%- if site.valves is defined %}
             {%- for valve in site.valves  %}
-              <Valve
+            <Valve
               {%- for k, v in valve.items() %}
                 {{ k }}="{{ v }}"
               {%- endfor %} />
