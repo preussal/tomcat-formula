@@ -7,10 +7,14 @@ include:
 
 # Tomcat fails if pillar-defined webapps are not deployed yet.
 # Create the missing 'appBase' directories so Tomcat works!
+    {% set systemd_override_ReadWritePaths = []  %}
 
     {% for id, data in tomcat.get('sites', {}).items() %}
       {% for k, v in data.items() %}
         {% if k == 'appBase' %}
+
+          {% do systemd_override_ReadWritePaths.append( tomcat.catalina_home+"/"+data['appBase']) %}
+
 tomcat {{ tomcat.catalina_home }}/{{ data['appBase'] }}:
   file.directory:
     - name: {{ tomcat.catalina_home }}/{{ data['appBase'] }}
@@ -44,6 +48,24 @@ tomcat {{ tomcat.catalina_base }}/{{ data['appBase'] }}:
         {% endif %}
       {% endfor %}
     {% endfor %}
+
+    {% if  tomcat.ver|int == 9  %}
+tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
+  file.managed:
+    - name: /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf
+    - source: salt://tomcat/files/override.conf
+    - template: jinja
+    - defaults:
+      ReadWritePaths: ReadWritePaths: {{ systemd_override_ReadWritePaths|yaml }}
+    - require:
+      - pkg: tomcat package installed and service running
+    - require_in:
+      - service: tomcat package installed and service running
+    - watch_in:
+      - module: tomcat_service_systemctl_reload
+      - service: tomcat package installed and service running
+    {% endif %}
+
 {% endif %}
 
 {% if tomcat.get('context', False) %}
