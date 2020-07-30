@@ -49,14 +49,14 @@ tomcat {{ tomcat.catalina_base }}/{{ data['appBase'] }}:
       {% endfor %}
     {% endfor %}
 
-    {% if  tomcat.ver|int == 9  %}
+    {% if  tomcat.ver|int == 9 %}
 tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
   file.managed:
     - name: /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf
     - source: salt://tomcat/files/override.conf
     - template: jinja
     - defaults:
-      ReadWritePaths: ReadWritePaths: {{ systemd_override_ReadWritePaths|yaml }}
+      ReadWritePaths: {{ systemd_override_ReadWritePaths|yaml }}
     - require:
       - pkg: tomcat package installed and service running
     - require_in:
