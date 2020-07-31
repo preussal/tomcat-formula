@@ -68,3 +68,5 @@ tomcat_service_systemctl_reload:
     - name: service.systemctl_reload
     - onchanges:
       - file: /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf
+    - require_in:
+      - service: tomcat package installed and service running
