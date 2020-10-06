@@ -53,7 +53,10 @@ tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
   file.managed:
     - name: /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf
 
-    {% if  tomcat.ver|int == 8 %}
+    {% if  tomcat.ver|int == 7 %}
+    - source: salt://tomcat/files/override7.conf
+
+    {% elif  tomcat.ver|int == 8 %}
     - source: salt://tomcat/files/override8.conf
 
     {% elif  tomcat.ver|int == 9 %}
