@@ -48,6 +48,7 @@ tomcat {{ tomcat.catalina_base }}/{{ data['appBase'] }}:
         {% endif %}
       {% endfor %}
     {% endfor %}
+{% endif %}
 
 tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
   file.managed:
@@ -74,7 +75,6 @@ tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
     - watch_in:
       - module: tomcat_service_systemctl_reload
       - service: tomcat package installed and service running
-{% endif %}
 
 {% if tomcat.get('context', False) %}
 tomcat {{ tomcat.conf_dir }}/context.xml:
