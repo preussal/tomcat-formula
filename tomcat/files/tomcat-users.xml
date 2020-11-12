@@ -21,7 +21,7 @@
     <role rolename="{{ role }}" />
 {%- endfor %}
 {# Users #}
-{%- for user, userconfig in salt['pillar.get']('tomcat:manager:users', {}).items() %}
+{%- for user, userconfig in salt['pillar.get']('tomcat:manager:users', {}).items()|sort %}
     <user username="{{ user }}" password="{{ userconfig['passwd'] }}" roles="{{ comma_list(userconfig['roles']) }}"/>
 {%- endfor %}
 </tomcat-users>

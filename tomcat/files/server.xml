@@ -85,7 +85,7 @@
     {% if connectors -%}
     {% for id, params in connectors.items() -%}
     <Connector
-    {% for k, v in params.items() %}
+    {% for k, v in params.items()|sort %}
                {{ k }}="{{ v }}"
     {%- endfor %}
     />
@@ -150,7 +150,7 @@
              resourceName="UserDatabase"
       />
     </Realm>
-    {% endif %} 
+    {% endif %}
 
     {% if cluster %}
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster" channelSendOptions="8">
@@ -193,7 +193,7 @@
             {% endif %}
             {%- if site.contexts is defined %}
             {%-  for context in site.contexts %}
-            <Context 
+            <Context
               {%- for k, v in context.items() %}
                 {{ k }}="{{ v }}"
               {%- endfor %} />
