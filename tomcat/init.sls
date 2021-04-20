@@ -39,6 +39,8 @@ tomcat package installed and service running:
     - require_in:
       - cmd: tomcat package installed and service running
   {%- endif %}
+  
+  {%- if tomcat.service_running == 'True' %}
   service.running:
     - onlyif: {{ tomcat.service_running }}    ##Set False for Travis CI
     - name: {{ tomcat.service }}
@@ -50,6 +52,7 @@ tomcat package installed and service running:
    {% elif tomcat.with_haveged %}
          # To install haveged in centos you need the EPEL repository
          # There is no haveged in MacOS
+  {%- endif %}
 
 tomcat haveged package installed and service running:
   pkg.installed:
