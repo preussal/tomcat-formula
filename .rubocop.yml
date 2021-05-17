@@ -7,11 +7,14 @@ Layout/LineLength:
   # Based on https://github.com/PyCQA/flake8-bugbear#opinionated-warnings (`B950`)
   Max: 88
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - control
     - describe
   # Increase from default of `25`
   Max: 30
+Security/YAMLLoad:
+  Exclude:
+    - test/integration/**/_mapdata.rb
 
 # General settings across all cops in this formula
 AllCops:
@@ -22,7 +25,4 @@ AllCops:
 # Any offenses that should be fixed, e.g. collected via. `rubocop --auto-gen-config`
 Lint/EmptyWhen:
   Exclude:
-    - test/integration/default/controls/config_spec.rb
-Style/FormatStringToken:
-  Exclude:
-    - test/integration/default/controls/yaml_dump_spec.rb
+    - test/integration/default/controls/config.rb
