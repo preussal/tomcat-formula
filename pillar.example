@@ -8,6 +8,10 @@ tomcat:
   # The Java home directory can be overridden like so.
   # java_home: '/usr/lib/jvm/default-java'
 
+  systemd_override:
+    StandardOutput: "file:/var/log/tomcat9/catalina.out"
+    StandardError: "file:/var/log/tomcat9/catalina.out"
+
   # Any parameter you may pass to the java app, you can pass it here,
   # without the preceding dash. The template builds the correct JAVA_OPTS
   # line, adding the dash.

@@ -64,6 +64,7 @@ tomcat /etc/systemd/system/{{ tomcat.service }}.service.d/override.conf:
     - source: salt://tomcat/files/override9.conf
     - defaults:
       ReadWritePaths: {{ systemd_override_ReadWritePaths|yaml }}
+      Systemd_override: {{ tomcat.systemd_override|yaml }}
     {% endif %}
 
     - template: jinja
